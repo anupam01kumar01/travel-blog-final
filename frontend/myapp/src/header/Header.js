@@ -1,0 +1,60 @@
+import React, { useState } from "react";
+import { AppBar, Tab, Tabs, Toolbar} from "@mui/material";
+import TravelExploreIcon from "@mui/icons-material/TravelExplore";
+import { Link } from "react-router-dom";
+import { useSelector } from 'react-redux';
+const linksArr = ["home", "diaries", "auth"];
+const loggedInLinks = ["home","diaries","add", "profile"];
+
+const Header = () => {
+    const isLoggedIn = useSelector((state)=>state.isLoggedIn);
+
+     const [value,setValue] = useState();
+
+     return (
+        <AppBar sx={{bgcolor: "transparent", position:"sticky"}}>
+        <Toolbar sx={{bgcolor:"orange"}}>
+            
+            <TravelExploreIcon sx={{color:"black"}}/>
+            <Tabs 
+                value={value}
+                onChange={(e,val) => setValue(val)}
+                sx={{ml: "auto" ,  textDecoration : "none"}}
+                >
+                {isLoggedIn ?  loggedInLinks.map((link) =>(
+                    <Tab 
+                        LinkComponent={Link}
+                        to={`/${link === "home" ? "" :link}`}
+                    sx={{textDecoration: "none", ":hover":{
+                        textDecoration: "underline",textUnderLineOffset: "20px",
+                    },
+                  }}
+                    key={link} 
+                    label={link}
+                    />
+
+                ))
+                : linksArr.map((link) =>(
+                    <Tab 
+                        LinkComponent={Link}
+                        to={`/${link === "home" ? "" :link}`}
+                        sx={{
+                        textDecoration: "none", ":hover":{
+                        textDecoration: "underline",textUnderLineOffset: "20px",
+                    },
+                }}
+                key={link} 
+                label={link}
+                />
+
+                ))}
+            </Tabs>
+            
+            
+        </Toolbar>
+     </AppBar>
+
+     );
+     
+};
+export default Header;
